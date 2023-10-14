@@ -35,7 +35,7 @@ class Tencent101:
         assert self.rankOverviewUrl
 
 
-    def get_rank_overview(self, heroId=None, lane=None, ijob=None, gameQueueConfigId=None, tier=None, backDate=None):
+    def getRankOverview(self, heroId=None, lane=None, ijob=None, gameQueueConfigId=None, tier=None, backDate=None):
         date = backDate if backDate else (datetime.datetime.now() - datetime.timedelta(days=3)).strftime('%Y%m%d')
         heroId = heroId if heroId else '666'
         lane = lane if lane else 'all'
