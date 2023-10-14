@@ -6,3 +6,5 @@ PyQt-Fluent-Widgets==1.2.0
 Requests==2.31.0
 willump==1.4.0
 pygetwindow==0.0.9
+beautifulsoup4==4.12.2
+lxml==4.9.3
