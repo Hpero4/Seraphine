@@ -7,4 +7,5 @@ class HeroPos(Enum):
     MID = "mid"
     BTM = "bottom"
     SUP = "support"
+    ALL = "all"
 
