@@ -55,10 +55,10 @@ jobs:
         path: ./
     - name: Push to release
       uses: ncipollo/release-action@v1
-      if: env.UPDATED == 'true'
+      if: env.UPDATED == 'true' || endsWith(env.VERSION, 'beta')
       with:
         name: ${{ env.VERSION }}
         tag: ${{ env.VERSION }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        replacesArtifacts: false
+        replacesArtifacts: ${{ endsWith(env.VERSION, 'beta') && env.UPDATED == 'false' }}
         artifacts: Seraphine.zip
