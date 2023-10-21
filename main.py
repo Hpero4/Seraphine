@@ -2,6 +2,8 @@
 import sys
 import os
 
+#1212121212
+
 from PyQt5.QtCore import Qt, QLocale, QTranslator
 from PyQt5.QtWidgets import QApplication
 from qfluentwidgets import FluentTranslator
