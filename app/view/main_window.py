@@ -28,7 +28,7 @@ from ..common.icons import Icon
 from ..common.config import cfg, VERSION
 from ..components.update_message_box import UpdateMessageBox
 from ..lol.entries import Summoner
-from ..lol.exceptions import SummonerGamesNotFound, RetryMaximumAttempts
+from ..lol.exceptions import SummonerGamesNotFound, RetryMaximumAttempts, SummonerNotFound, SummonerNotInGame
 from ..lol.listener import (LolProcessExistenceListener, LolClientEventListener,
                             getLolProcessPid)
 from ..lol.connector import connector
@@ -214,12 +214,16 @@ class MainWindow(FluentWindow):
                 "The server returned abnormal content, which may be under maintenance.")
         elif type(obj) is RetryMaximumAttempts:
             msg = self.tr("Exceeded maximum retry attempts.")
+        elif type(obj) in [SummonerNotFound, SummonerNotInGame]:
+            return
         else:
             msg = repr(obj)
+
         InfoBar.error(
             self.tr("LCU request error"),
             self.tr(f"Connect API") + f" {api}: {msg}",
             duration=5000,
+            orient=Qt.Vertical,
             parent=self,
             position=InfoBarPosition.BOTTOM_RIGHT
         )
@@ -240,6 +244,7 @@ class MainWindow(FluentWindow):
             self.tr(
                 "Failed to check for updates, possibly unable to connect to Github."),
             duration=5000,
+            orient=Qt.Vertical,
             parent=self,
             position=InfoBarPosition.BOTTOM_RIGHT
         )
@@ -396,6 +401,7 @@ class MainWindow(FluentWindow):
 
             self.auxiliaryFuncInterface.profileBackgroundCard.updateCompleter()
             self.auxiliaryFuncInterface.autoSelectChampionCard.updateCompleter()
+            self.auxiliaryFuncInterface.lockConfigCard.loadNowMode.emit()
 
             status = connector.getGameStatus()
             self.eventListener.gameStatusChanged.emit(status)
@@ -1058,8 +1064,10 @@ class MainWindow(FluentWindow):
                 # iconId = summoner["profileIconId"]
                 # icon = connector.getProfileIcon(iconId)
 
-                iconId = item["championId"]
-                icon = connector.getChampionIcon(iconId)
+                championId = item.get("championId")
+                championId = championId if championId != None else -1
+
+                icon = connector.getChampionIcon(championId)
 
                 origRankInfo = connector.getRankedStatsByPuuid(puuid)
                 rankInfo = processRankInfo(origRankInfo)
@@ -1150,11 +1158,8 @@ class MainWindow(FluentWindow):
 
             assignTeamId(summoners)
 
-            self.gameInfoInterface.enemySummonerInfoReady.emit(
-                {'summoners': summoners, 'queueId': queueId})
-
             if not self.isChampSelected:
-                summoners = []
+                allySummoners = []
                 with ThreadPoolExecutor() as executor:
                     futures = [executor.submit(process_item, item, True)
                                for item in allys]
@@ -1162,12 +1167,15 @@ class MainWindow(FluentWindow):
                 for future in as_completed(futures):
                     result = future.result()
                     if result is not None:
-                        summoners.append(result)
+                        allySummoners.append(result)
 
-                assignTeamId(summoners)
+                assignTeamId(allySummoners)
 
                 self.gameInfoInterface.allySummonersInfoReady.emit(
-                    {'summoners': summoners})
+                    {'summoners': allySummoners})
+
+            self.gameInfoInterface.enemySummonerInfoReady.emit(
+                {'summoners': summoners, 'queueId': queueId})
 
             if callback:
                 callback()

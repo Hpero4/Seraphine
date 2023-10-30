@@ -56,7 +56,8 @@ class Config(QConfig):
     teamGamesNumber = RangeConfigItem("Functions", "TeamGamesNumber", 1,
                                       RangeValidator(1, 10))
 
-    gameInfoFilter = ConfigItem("Functions", "GameInfoFilter", False, BoolValidator())
+    gameInfoFilter = ConfigItem(
+        "Functions", "GameInfoFilter", False, BoolValidator())
 
     showTierInGameInfo = ConfigItem("Functions", "ShowTierInGameInfo", False,
                                     BoolValidator())
@@ -96,7 +97,7 @@ class Config(QConfig):
 
 YEAR = 2023
 AUTHOR = "Zaphkiel"
-VERSION = "0.8.1"
+VERSION = "0.9.0"
 FEEDBACK_URL = "https://github.com/Zzaphkiel/Seraphine/issues"
 GITHUB_URL = "https://github.com/Zzaphkiel/Seraphine"
 
