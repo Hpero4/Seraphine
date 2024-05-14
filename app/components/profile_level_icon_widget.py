@@ -186,12 +186,12 @@ class AramFlyout(FlyoutViewBase):
         self.gridBox = QGridLayout()
 
         self.titleLabel = QLabel(self)  # 英雄名字(带称号)
-        self.damageDealtLabel = QLabel(self.tr('Damage Dealt'), self)  # 造成伤害的权重
-        self.damageReceivedLabel = QLabel(self.tr('Damage Received'), self)  # 受到伤害的权重
-        self.healingIncreaseLabel = QLabel(self.tr('Healing Increase'), self)  # 治疗增益的权重
-        self.shieldIncreaseLabel = QLabel(self.tr('Shield Increase'), self)  # 护盾增益的权重
-        self.abilityHasteLabel = QLabel(self.tr('Ability Haste'), self)  # 技能急速的权重, 是正向属性, 值越大cd越短
-        self.tenacityLabel = QLabel(self.tr('Tenacity'), self)  # 韧性的权重
+        self.damageDealtLabel = QLabel(self.tr('造成伤害'), self)  # 造成伤害的权重
+        self.damageReceivedLabel = QLabel(self.tr('受到伤害'), self)  # 受到伤害的权重
+        self.healingIncreaseLabel = QLabel(self.tr('治疗增益'), self)  # 治疗增益的权重
+        self.shieldIncreaseLabel = QLabel(self.tr('护盾增益'), self)  # 护盾增益的权重
+        self.abilityHasteLabel = QLabel(self.tr('技能急速'), self)  # 技能急速的权重, 是正向属性, 值越大cd越短
+        self.tenacityLabel = QLabel(self.tr('韧性'), self)  # 韧性的权重
 
         self.damageDealtValueLabel = QLabel(self)  # 造成伤害的权重
         self.damageReceivedValueLabel = QLabel(self)  # 受到伤害的权重
